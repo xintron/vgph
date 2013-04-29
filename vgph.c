@@ -79,6 +79,7 @@ int main(int argc, char *argv[]) {
 
     // Remove 2 chars for spacing []
     int c, graph, columns = w.ws_col - 2;
+    double difference = max - min;
     if (length > 0)
         columns -= length + 1;
 
@@ -88,7 +89,12 @@ int main(int argc, char *argv[]) {
             printf("%*s [", length, data[i].name == NULL ? "" : data[i].name);
         else
             fputs("[", stdout);
-        graph = ((data[i].value - min) / (max - min)) * columns;
+        // All graphs are of the same size, set the length to be full instead
+        // of 0.
+        if (difference == 0)
+            graph = columns;
+        else
+            graph = ((data[i].value - min) / difference) * columns;
         for (c = 0; c < graph; c++)
             fputs("#", stdout);
         puts("]");

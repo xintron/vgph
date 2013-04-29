@@ -24,4 +24,28 @@ bar ["
     assertEquals "$res" "$graph"
 }
 
+testMixedData() {
+    graph="$(./vgph foo:10 28.5)"
+    let "cols=$(tput cols) - 6"
+    res="foo []
+    ["
+    for i in $(seq 1 $cols); do res="$res#"; done
+    res="$res]"
+    assertEquals "$res" "$graph"
+
+}
+
+testSameValue() {
+    graph="$(./vgph 10 10)"
+    let "cols=$(tput cols) - 2"
+    res="["
+    for i in $(seq 1 $cols); do res="$res#"; done
+    res="$res]"
+    res="$res
+["
+    for i in $(seq 1 $cols); do res="$res#"; done
+    res="$res]"
+    assertEquals "$res" "$graph"
+}
+
 . shunit2
